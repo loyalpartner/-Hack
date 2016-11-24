@@ -1,0 +1,554 @@
+using Happy_BuYu.GlobalVO;
+using Happy_BuYus.Util;
+using PokerCommon.Model.GlobalData;
+using PokerCommon.Util;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Happy_BuYu.Game
+{
+	public class BY_GamePlayerNode : FactoryPlayerNode
+	{
+		// Limited support!
+		// You can only reference methods or fields defined in the class (not in ancestors classes)
+		// Fields and methods stubs are needed for compilation purposes only.
+		// Reflexil will automaticaly map current type, fields or methods to original references.
+// Happy_BuYu.Game.BY_GamePlayerNode
+public bool bContainLockFishStatus()
+{
+	if(GameUtil.Lock) return true;
+	return this.m_dicLogicGunStatus.ContainsKey(6) || this.m_dicLogicGunStatus.ContainsKey(8);
+}
+
+		
+		#region " Methods stubs "
+		// Do not add or update any method. If compilation fails because of a method declaration, comment it
+		BY_GamePlayerNode()
+		{
+		}
+		
+		void AddGold(int iAddNum)
+		{
+		}
+		
+		void ReduceGold(int iReduceNum)
+		{
+		}
+		
+		void ResetGold(int iGoldNum)
+		{
+		}
+		
+		void AddGem(int iAddNum)
+		{
+		}
+		
+		void ReduceGem(int iReduceNum)
+		{
+		}
+		
+		void AddFastMatchPoint(int iAddNum)
+		{
+		}
+		
+		void AddFastMatchShot(int iAddNum)
+		{
+		}
+		
+		void ReduceFastMatchShot(int iReduceNum)
+		{
+		}
+		
+		void AddMatchPoint(int iAddNum)
+		{
+		}
+		
+		void ReduceMatchPoint(int iReduceNum)
+		{
+		}
+		
+		void AddMatchShotNum(int iAddNum)
+		{
+		}
+		
+		void ReduceMatchShotNum(int iReduceNum)
+		{
+		}
+		
+		void AddFreeMatchShotNum(int iAddNum)
+		{
+		}
+		
+		void ReduceFreeMatchShotNum(int iReduceNum)
+		{
+		}
+		
+		void AddFreeMatchPoint(int iAddNum)
+		{
+		}
+		
+		void ReduceFreeMatchPoint(int iReduceNum)
+		{
+		}
+		
+		int JudgeUseSkill(int iSkillType, ref string content)
+		{
+			return default(int);
+		}
+		
+		int JudgeUsePveSkill(int iSkillType, ref string content)
+		{
+			return default(int);
+		}
+		
+		void UseSkillReq(int iSkillType)
+		{
+		}
+		
+		int JudgeBuyProp(int iPropId, ref string content)
+		{
+			return default(int);
+		}
+		
+		void BuyProp(int iPropId)
+		{
+		}
+		
+		void BuyShout()
+		{
+		}
+		
+		void BuyUnlockBet()
+		{
+		}
+		
+		int JudgeUseProp(int iPropId, ref string content)
+		{
+			return default(int);
+		}
+		
+		int JudgeUseSupportBullet(int iPropID, ref string content)
+		{
+			return default(int);
+		}
+		
+		void UsePropReq(int iPropId)
+		{
+		}
+		
+		void ChangeBetReq(uint iBetValue)
+		{
+		}
+		
+		int GetViolent()
+		{
+			return default(int);
+		}
+		
+		int GetAvatar()
+		{
+			return default(int);
+		}
+		
+		void CalculateHitFrameAddSpeed()
+		{
+		}
+		
+		void SetAlreadyShotReq(bool bShotReq, int iVirtualPos)
+		{
+		}
+		
+		bool GetAlreadyShotReq(int iVirtualPos)
+		{
+			return default(bool);
+		}
+		
+		long GetShotReqTime(int iVirtualPos)
+		{
+			return default(long);
+		}
+		
+		uint GetBeforeMultiplyPower(int iCurMultiplyPower)
+		{
+			return default(uint);
+		}
+		
+		uint GetNextMultiplyPower(int iCurMultiplyPower)
+		{
+			return default(uint);
+		}
+		
+		uint GetCurAvailableMaxPower()
+		{
+			return default(uint);
+		}
+		
+		bool bShot()
+		{
+			return default(bool);
+		}
+		
+		bool bChangeGun()
+		{
+			return default(bool);
+		}
+		
+		bool bUseCard()
+		{
+			return default(bool);
+		}
+		
+		bool bUseSkill()
+		{
+			return default(bool);
+		}
+		
+		bool bImmunity()
+		{
+			return default(bool);
+		}
+		
+		bool bUsingSkill()
+		{
+			return default(bool);
+		}
+		
+		bool bUsingLock()
+		{
+			return default(bool);
+		}
+		
+		bool bUsingViolent()
+		{
+			return default(bool);
+		}
+		
+		int CalculateGunLevel()
+		{
+			return default(int);
+		}
+		
+		int GetCurBetValue()
+		{
+			return default(int);
+		}
+		
+		int iChangeFireFreq()
+		{
+			return default(int);
+		}
+		
+		void changeGunSuccess(uint unUseGunUWID, uint willUseGunUWID, uint willUseGunID)
+		{
+		}
+		
+		void ChangeSupportNum(int iNum)
+		{
+		}
+		
+		bool JudgeChangeFenZhi()
+		{
+			return default(bool);
+		}
+		
+		int JudgeLeaveGame()
+		{
+			return default(int);
+		}
+		
+		bool bLockSpeedSlow()
+		{
+			return default(bool);
+		}
+		
+		void ClearNoMoneyStatus()
+		{
+		}
+		
+		void ClearBetStatus()
+		{
+		}
+		
+		void RemoveStatus(int iStatus)
+		{
+		}
+		
+		int GetInfullPokerMoney()
+		{
+			return default(int);
+		}
+		
+		int GetShotMainID()
+		{
+			return default(int);
+		}
+		
+		void Rest()
+		{
+		}
+		
+		bool JudgeContain(System.Collections.Generic.List<Happy_BuYu.Game.UserWeapon> array, System.Collections.Generic.List<int> equipmentIds)
+		{
+			return default(bool);
+		}
+		
+		int SearchEquipDestMedalID(int iMedalID)
+		{
+			return default(int);
+		}
+		
+		static int CompareUserWeapon(Happy_BuYu.Game.UserWeapon x, Happy_BuYu.Game.UserWeapon y)
+		{
+			return default(int);
+		}
+		
+		bool ChangeGunReq(int iGunID)
+		{
+			return default(bool);
+		}
+		
+		void ChangeMaxGun()
+		{
+		}
+		
+		string GetLeaveGameTip()
+		{
+			return default(string);
+		}
+		
+		void LotteryReq(int iLotteryLevl)
+		{
+		}
+		
+		void ChooseLotteryAward(int iChooice)
+		{
+		}
+		
+		void FroceAccountReq()
+		{
+		}
+		
+		void InfullCancelNotice()
+		{
+		}
+		
+		void ChangeSelfBetShow(int iShowBetValue)
+		{
+		}
+		
+		void ChangeSelfBetShow()
+		{
+		}
+		
+		void ChangeMinBet()
+		{
+		}
+		
+		void CheckBroke()
+		{
+		}
+		
+		void SendChatReq(string szChatContent)
+		{
+		}
+		
+		void SetPauseFire(bool bIsPause)
+		{
+		}
+		
+		int GetMatchSignUpCost()
+		{
+			return default(int);
+		}
+		
+		void CheckNewerLeaveDirct()
+		{
+		}
+		
+		int GetCurSignScoreAdd()
+		{
+			return default(int);
+		}
+		
+		int GetNextSignScoreAdd()
+		{
+			return default(int);
+		}
+		
+		int GetDayReliefCount()
+		{
+			return default(int);
+		}
+		
+		bool HaveEquipment(int iGunId)
+		{
+			return default(bool);
+		}
+		
+		bool IfShowNewerTask()
+		{
+			return default(bool);
+		}
+		
+		bool hasHDDSkill()
+		{
+			return default(bool);
+		}
+		
+		bool hasAddBloolItemOrSkill()
+		{
+			return default(bool);
+		}
+		
+		bool hasClearStateItemOrSkill()
+		{
+			return default(bool);
+		}
+		
+		#endregion 
+		
+		#region " Fields stubs "
+		// Do not add or update any field. If compilation fails because of a field declaration, comment it
+		static int GUN_LEVEL;
+		static int m_iBloodLowerLimit;
+		int m_iMaxBlood;
+		int m_iBlood;
+		int m_iCurGlodNum;
+		uint m_iCurPower;
+		int m_iDisplayPos;
+		int m_iCurExpLevel;
+		int m_iCurExpValue;
+		int m_iGunBasePropId;
+		int m_iCurBetValue;
+		ushort m_sPveSkillOne;
+		ushort m_sPveSkillOneLevel;
+		ushort m_sPveSkillTwo;
+		ushort m_sPveSkillTwoLevel;
+		ushort m_sPveSkillThree;
+		ushort m_sPveSkillThreeLevel;
+		int m_iNowShotMainID;
+		uint m_iTotalFrame;
+		long m_iEnterTime;
+		long m_lLastLevelTime;
+		bool m_bUdpLoginSuccess;
+		uint m_iOnlineGiftValue;
+		int m_iCurMaxBetValue;
+		uint m_iNextBetValue;
+		uint m_iNextBetRedGemValue;
+		uint m_iNextBetAwardGold;
+		int m_iCanReliefCount;
+		float m_fShotHitFrameAddSpeed;
+		bool m_bFirstRoomMaxWin;
+		System.Collections.Generic.List<Happy_BuYu.Game.UserWeapon> m_equipmentWeapons;
+		System.Collections.Generic.List<Happy_BuYu.Game.UserWeapon> m_packWeapons;
+		System.Collections.Generic.List<Happy_BuYu.Game.GameDailyTaskInfo> m_listDailyTaskInfo;
+		System.Collections.Generic.Dictionary<int, Happy_BuYu.Game.LogicGunStatus> m_dicLogicGunStatus;
+		System.Collections.Generic.List<Happy_BuYu.Game.LogicMeleeFishAttack> m_lisMeleeAttack;
+		long m_activeTime;
+		bool m_bSpendingRedGem;
+		bool m_bAlreadyBuyReq;
+		long m_bAlreadyBuyReqTime;
+		bool[] m_bAlreadyShotReq;
+		long[] m_alreadyShotReqTime;
+		bool m_bAlreadyChangeGunReq;
+		long m_lastChangeGunTime;
+		bool m_bAlreadyChangeBetReq;
+		long m_lastChangeBetTime;
+		bool m_bAlreadyUsePropReq;
+		bool m_bAlreadyUseSkillReq;
+		bool m_bAlreadyUseViolent;
+		bool m_bAlreadySendReliefReq;
+		int m_iCurExistsShot;
+		bool m_bAlreadyUseEquipmentReq;
+		bool m_bAlreadySignUpReq;
+		int m_iNowDoingTask;
+		Happy_BuYu.Game.MissionStartNotice m_task;
+		System.Collections.Generic.Dictionary<int, int> m_curTaskFishKillNum;
+		Happy_BuYu.Game.MissionFinishNotice m_taskFinaly;
+		bool m_bAlreadySitedown;
+		bool m_bAlreadyCallBuyPanel;
+		long m_lastChangeSeatTime;
+		System.Collections.Generic.Dictionary<int, int> m_dicShotMoneyHistroy;
+		System.Collections.Generic.Dictionary<int, int> m_dicShotLevelHistroy;
+		System.Collections.Generic.Dictionary<int, float> m_dicSuperGunPos;
+		int[] m_iLockFishMainId;
+		int[] m_iLockFishSubId;
+		int[] m_iLastLockFishMainId;
+		int[] m_iLastLockFishSunId;
+		int m_iLastLockFishGunIndex;
+		int iTotalShotNum;
+		int iTotalErrorNum;
+		long m_iLastUseGourdTime;
+		bool m_bLockUseGourd;
+		System.Collections.Generic.List<int> m_lisFailShot;
+		int m_iShotReqConfirCount;
+		bool m_bSupport;
+		bool m_bLockBet;
+		int m_iAppearSupportCardNum;
+		int m_iNoFireFrame;
+		int m_iVipLev;
+		int m_iCurAwardFishNum;
+		int m_iNeedAwardFishNum;
+		int m_iCurAwardPoolGoldNum;
+		bool m_bIsNeedTax;
+		int m_iInfullCount;
+		int m_iInfullCountWithPoint;
+		int m_iBlueDiamondType;
+		int m_iBlueDiamondLev;
+		int m_iMatchLeftShotNum;
+		int m_iMatchCurPoint;
+		int m_iMatchSignUpCount;
+		int m_iMatchHighestPoint;
+		int m_iCurWeekMatchPoint;
+		int m_iMatchLeftShotNumFromServer;
+		bool m_bInScoreTask;
+		int m_iFastMatchLeftShotNum;
+		int m_iFastMatchPoint;
+		int m_iFreeMatchSignUpNum;
+		int m_iFreeMatchLeftShotNum;
+		int m_iFreeMatchCurPoint;
+		int m_iFreeMatchRankPoint;
+		bool m_bNewTask;
+		int m_iNewTaskStep;
+		int m_iAllShotNum;
+		int m_iLastSupportID;
+		System.Collections.Generic.Queue<int> m_queShotAddMoney;
+		System.Collections.Generic.Queue<int> m_queExtraAddMoney;
+		bool m_bIsPauseFire;
+		Happy_BuYu.Game.MissionStart m_CurMatchTask;
+		int[] m_iCurMatchTaskFishNum;
+		int m_iCurMatchTaskStatus;
+		int m_iWaitFireSkillShot;
+		//ActiveSkill m_activeSkill;
+		System.Collections.Generic.Dictionary<int, bool> m_dicFireSkillAimSelf;
+		System.Collections.Generic.Dictionary<int, int> m_dicSkillHurtMainIdMap;
+		System.Collections.Generic.Dictionary<int, int> m_dicSkillHurtSubIdMap;
+		int m_iMagicDebris;
+		bool m_bIsDied;
+		int m_iLockFlag;
+		int m_iViolentFlag;
+		int m_iAvatarFlag;
+		int m_iLockStatusDiffNum;
+		int m_iIllegalNetNum;
+		int m_iLeftShotNumBeforeChat;
+		int m_iWorldBossPoint;
+		int m_starMoney;
+		System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, int>> m_reduceMoneyLog;
+		int m_iReduceMoneyTotal;
+		int m_iAddMoneyTotal;
+		int m_iAddMoneyShotFailTotal;
+		int m_iAddMoneyUpgradTotal;
+		int m_iAddMoneyLockBetTotal;
+		int m_iAddMoneyReliefTotal;
+		int m_iAddMoneyLottery;
+		System.Collections.Generic.Dictionary<int, int> m_addMoneyFailShotLog;
+		System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, int>>> m_addMoneyFishDeadLog;
+		int m_viewAddMoney;
+		int m_viewReduceMoney;
+		int m_iRequestShotNum;
+		int m_iResponseShotNum;
+		#endregion 
+	
+	}
+}
