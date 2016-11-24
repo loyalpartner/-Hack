@@ -1,0 +1,274 @@
+using Happy_BuYu.Common;
+using Happy_BuYu.GlobalVO;
+using Happy_BuYu.UITool;
+using Happy_BuYus.Util;
+using PokerCommon.Music;
+using PokerCommon.Util;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+//using System.Diagnostics;
+using UnityEngine;
+
+namespace Happy_BuYu.Lobby
+{
+	public class BY_LbChooseScenePanel : Happy_BuYu.UITool.BY_BasePanel
+	{
+		// Limited support!
+		// You can only reference methods or fields defined in the class (not in ancestors classes)
+		// Fields and methods stubs are needed for compilation purposes only.
+		// Reflexil will automaticaly map current type, fields or methods to original references.
+// Happy_BuYu.Lobby.BY_LbChooseScenePanel
+public void CallEnterGame()
+{
+	//BY_GameRecord.getInstance().SendRecord(Happy_BuYu.GlobalVO.BY_GlobalData.m_iUserId, 72);
+	BY_LbPlayerNode bY_LbPlayerNode = GDUtil.myPlay as BY_LbPlayerNode;
+	Debug.Log("m_iEnterRoomType" + this.m_iEnterRoomType);
+	Happy_BuYu.GlobalVO.BY_GlobalData.m_serverRoomType = (Happy_BuYu.GlobalVO.BY_GlobalData.SERVER_ROOM_TYPE)this.m_iEnterRoomType;
+	
+	if(GameUtil.Level != -1){
+		Happy_BuYu.GlobalVO.BY_GlobalData.m_serverRoomType = (Happy_BuYu.GlobalVO.BY_GlobalData.SERVER_ROOM_TYPE)GameUtil.Level;
+	}
+	
+	List<Happy_BuYu.GlobalVO.FishLobbyInfoDef> openRoom = this.GetOpenRoom(Happy_BuYu.GlobalVO.BY_CenterServerManage.m_mapFishLobbyInfo[this.m_iEnterRoomType]);
+	int index = 0;
+	if (openRoom.Count > 1)
+	{
+		index = BY_LbCommMethod.g_random.Next(openRoom.Count);
+	}
+	if (openRoom.Count == 0)
+	{
+		if (Happy_BuYu.GlobalVO.BY_GlobalData.isTimeCheckRoom(this.m_iEnterRoomType))
+		{
+			Happy_BuYu.Common.BY_AlertPanel.m_instance.Display("此房间未到开放时间段", null, null, false, null, 10, null, 0);
+		}
+		else
+		{
+			Happy_BuYu.Common.BY_AlertPanel.m_instance.Display("暂无房间信息", null, null, false, null, 10, null, 0);
+		}
+		return;
+	}
+	Happy_BuYu.GlobalVO.BY_GlobalData.m_szIp = openRoom[index].szServerIp;
+	Happy_BuYu.GlobalVO.BY_GlobalData.m_iPort = (uint)openRoom[index].iServerPort;
+	Happy_BuYu.GlobalVO.BY_GlobalData.g_szIntranetIp = openRoom[index].szIntranetIp;
+	Happy_BuYu.GlobalVO.BY_GlobalData.g_iIntranetPort = openRoom[index].iIntranetPort;
+	Happy_BuYu.GlobalVO.BY_GlobalData.g_iChooseTableNum = 0;
+	Debug.Log(string.Concat(new object[]
+	{
+		"connect: port:",
+		Happy_BuYu.GlobalVO.BY_GlobalData.m_iPort,
+		" ip:",
+		Happy_BuYu.GlobalVO.BY_GlobalData.m_szIp
+	}));
+	Debug.Log(string.Concat(new object[]
+	{
+		"connect: port:",
+		Happy_BuYu.GlobalVO.BY_GlobalData.g_iIntranetPort,
+		" ip:",
+		Happy_BuYu.GlobalVO.BY_GlobalData.g_szIntranetIp
+	}));
+	this.JudgeEquipedGunOverdue();
+}
+
+		
+		#region " Methods stubs "
+		// Do not add or update any method. If compilation fails because of a method declaration, comment it
+		BY_LbChooseScenePanel()
+		{
+		}
+		
+		static BY_LbChooseScenePanel()
+		{
+		}
+		
+		void Start()
+		{
+		}
+		
+		
+		
+		void SetVisible(bool bVisible)
+		{
+		}
+		
+		void Init()
+		{
+		}
+		
+		void UpdatePveTipsAndWorldBoss()
+		{
+		}
+		
+		void ShowScene(int iIndex)
+		{
+		}
+		
+		void CallChargePanel()
+		{
+		}
+		
+		void ChargeMoney()
+		{
+		}
+		
+		void ChooseRoom(int iIndex)
+		{
+		}
+		
+		void ReChoose()
+		{
+		}
+		
+		void clickPveRoom()
+		{
+		}
+		
+		void OnClick(UnityEngine.GameObject go)
+		{
+		}
+		
+		void ClickPveInfoBtn()
+		{
+		}
+		
+		void EnterRoom(int iRoomType)
+		{
+		}
+		
+		void LeftMove()
+		{
+		}
+		
+		void RightMove()
+		{
+		}
+		
+		void EndMove()
+		{
+		}
+		
+		void AutoChooseScene()
+		{
+		}
+		
+		void ClickStartBtn()
+		{
+		}
+		
+		int CompareFishLobbyInfo(System.Collections.Generic.List<Happy_BuYu.GlobalVO.FishLobbyInfoDef> x, System.Collections.Generic.List<Happy_BuYu.GlobalVO.FishLobbyInfoDef> y)
+		{
+			return default(int);
+		}
+		
+		void CreateSceneObjInfo(int iIndex)
+		{
+		}
+		
+		int FindFitRoom()
+		{
+			return default(int);
+		}
+		
+		int CheckEnterRoom(int iRoomType, ref string szReason)
+		{
+			return default(int);
+		}
+		
+		bool CanEnterRoomXinShou()
+		{
+			return default(bool);
+		}
+		
+		int CheckEnterRoom(int iRoomType)
+		{
+			return default(int);
+		}
+		
+		void SetEnterRoomType(int iEnterRoomType)
+		{
+		}
+		
+		void ShowPveGroupRoom()
+		{
+		}
+		
+		void JudgeIsInPveTime()
+		{
+		}
+		
+		void JudgeHpInfo()
+		{
+		}
+		
+		void JudgeEquipedGunOverdue()
+		{
+		}
+		
+		void ConfirmRenewGun()
+		{
+		}
+		
+		void ChangeGun()
+		{
+		}
+		
+		void ChangeGunBase()
+		{
+		}
+		
+		void StartLoadGame()
+		{
+		}
+		
+		System.Collections.IEnumerator LoadGameSence()
+		{
+			return default(System.Collections.IEnumerator);
+		}
+		
+		System.Collections.Generic.List<Happy_BuYu.GlobalVO.FishLobbyInfoDef> GetOpenRoom(System.Collections.Generic.List<Happy_BuYu.GlobalVO.FishLobbyInfoDef> pFishLobbyInfo)
+		{
+			return default(System.Collections.Generic.List<Happy_BuYu.GlobalVO.FishLobbyInfoDef>);
+		}
+		
+		void OnWorldBossComeSoon()
+		{
+		}
+		
+		void ShowPanel(bool bShow)
+		{
+		}
+		
+		#endregion 
+		
+		#region " Fields stubs "
+		// Do not add or update any field. If compilation fails because of a field declaration, comment it
+		static string LB_CALL_ENTER_SCENE;
+		static string LB_CALL_CHOOSE_ROOM_PANEL;
+		static string LB_JUDGE_EQUIPED_GUN_OVERDUE;
+		static string LB_CALL_FAST_MATCH_SIGN_UP;
+		static string LB_JUDGE_IS_PVE_TIME;
+		static string LB_CALL_PVE_INFO_PANEL;
+		static string LB_WORLD_BOSS_COME_SOON;
+		UIPanel scrollView;
+		UnityEngine.GameObject sceneGrid;
+		UnityEngine.GameObject sceneInfo;
+		UIButton BtnStart;
+		UISprite start_spr;
+		UIButton left_arrow_btn;
+		UIButton right_arrow_btn;
+		UnityEngine.GameObject eff_LB_btnstart;
+		System.Collections.Generic.List<Happy_BuYu.Lobby.ShowSceneInfo> m_listShowSceneInfo;
+		bool m_bPveOpen;
+		bool m_bMoving;
+		int m_iEnterRoomType;
+		int m_iChosenIndex;
+		int m_iBeginIndex;
+		bool isWaitForPveRoom;
+		int pveWaitStep;
+		static UnityEngine.Vector3[] m_scenePos;
+		static UnityEngine.Vector3 m_outPos;
+		static Happy_BuYu.GlobalVO.BY_GlobalData.SERVER_ROOM_TYPE[] m_arrShowRoomType;
+		#endregion 
+	
+	}
+}
