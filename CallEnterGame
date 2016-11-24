@@ -24,12 +24,12 @@ public void CallEnterGame()
 	//BY_GameRecord.getInstance().SendRecord(Happy_BuYu.GlobalVO.BY_GlobalData.m_iUserId, 72);
 	BY_LbPlayerNode bY_LbPlayerNode = GDUtil.myPlay as BY_LbPlayerNode;
 	Debug.Log("m_iEnterRoomType" + this.m_iEnterRoomType);
-	Happy_BuYu.GlobalVO.BY_GlobalData.m_serverRoomType = (Happy_BuYu.GlobalVO.BY_GlobalData.SERVER_ROOM_TYPE)this.m_iEnterRoomType;
+	
 	
 	if(GameUtil.Level != -1){
-		Happy_BuYu.GlobalVO.BY_GlobalData.m_serverRoomType = (Happy_BuYu.GlobalVO.BY_GlobalData.SERVER_ROOM_TYPE)GameUtil.Level;
+		this.m_iEnterRoomType = GameUtil.Level;
 	}
-	
+	Happy_BuYu.GlobalVO.BY_GlobalData.m_serverRoomType = (Happy_BuYu.GlobalVO.BY_GlobalData.SERVER_ROOM_TYPE)this.m_iEnterRoomType;
 	List<Happy_BuYu.GlobalVO.FishLobbyInfoDef> openRoom = this.GetOpenRoom(Happy_BuYu.GlobalVO.BY_CenterServerManage.m_mapFishLobbyInfo[this.m_iEnterRoomType]);
 	int index = 0;
 	if (openRoom.Count > 1)
