@@ -1,0 +1,141 @@
+using PokerCommon.Util;
+using PokerUtil;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Happy_BuYu.Game
+{
+	public class BY_AdvanceGun : BY_GunBase
+	{
+		// Limited support!
+		// You can only reference methods or fields defined in the class (not in ancestors classes)
+		// Fields and methods stubs are needed for compilation purposes only.
+		// Reflexil will automaticaly map current type, fields or methods to original references.
+// Happy_BuYu.Game.BY_AdvanceGun
+private BY_FishBase FindNewLockFish()
+{
+	BY_FishBase result = null;
+	int num = -10000;
+	var filterList = new List<int> { 57, 55};
+	BY_GamePlayerNode bY_GamePlayerNode = GDUtil.myPlay as BY_GamePlayerNode;
+	List<BY_FishBase> lisFishs = BY_FishContain.m_instance.m_lisFishs;
+	for (int i = 0; i < lisFishs.Count; i++)
+	{
+		if (this.IsFishStatusCanBeLock(lisFishs[i].m_fishStatus) && filterList.Contains(lisFishs[i].m_iFishType))
+		{
+			bool flag = false;
+			for (int j = 0; j < 3; j++)
+			{
+				if (bY_GamePlayerNode.m_iLockFishMainId[j] != 0 && lisFishs[i].m_iMainID == bY_GamePlayerNode.m_iLockFishMainId[j] && lisFishs[i].m_iSubID == bY_GamePlayerNode.m_iLockFishSubId[j])
+				{
+					flag = true;
+				}
+			}
+			int num2 = this.GetFishLockGold(lisFishs[i].m_iFishType, lisFishs[i].m_iGold, false);
+			if (flag)
+			{
+				num2 -= 10000;
+			}
+			if (num2 >= num)
+			{
+				result = lisFishs[i];
+				num = num2;
+			}
+		}
+	}
+	return result;
+}
+
+		
+		#region " Methods stubs "
+		// Do not add or update any method. If compilation fails because of a method declaration, comment it
+		BY_AdvanceGun()
+		{
+		}
+		
+		void Init(int iBetValue, bool bSelf, int iPos, int iDisplayPos, UnityEngine.GameObject parentObj)
+		{
+		}
+		
+		void SetUnreal(bool bUnreal)
+		{
+		}
+		
+		void SetRight()
+		{
+		}
+		
+		void SetCent()
+		{
+		}
+		
+		void AddStatus(int iStatus)
+		{
+		}
+		
+		void DestroyGunRes()
+		{
+		}
+		
+		void JudgeAutoAttack()
+		{
+		}
+		
+		bool IsCanShot()
+		{
+			return default(bool);
+		}
+		
+		void OnAimFishNull()
+		{
+		}
+		
+		bool IsFishStatusCanBeLock(BY_FishBase.FishStatus status)
+		{
+			return default(bool);
+		}
+		
+		void OnFishCanNotBeLock()
+		{
+		}
+		
+		int GetFishLockGold(int iFishType, int iOriginalGold, bool bTaskEffct)
+		{
+			return default(int);
+		}
+		
+		void FireSendMsg(UnityEngine.Vector3 cursorScreenPosition, bool bAuto, bool bDirectly)
+		{
+		}
+		
+		void JudgeAutoFireAim(UnityEngine.Vector3 cursorScreenPosition, Happy_BuYu.Game.BY_GamePlayerNode player)
+		{
+		}
+		
+		void ReInitGunBody()
+		{
+		}
+		
+		void SetPauseFire(bool bIsPause)
+		{
+		}
+		
+		void GunRotation(bool bIsLeft, int iAddRotation)
+		{
+		}
+		
+		#endregion 
+		
+		#region " Fields stubs "
+		// Do not add or update any field. If compilation fails because of a field declaration, comment it
+		Happy_BuYu.Game.BY_FishBase m_fishBase;
+		double m_aimAngleValue;
+		float m_distance;
+		long m_LastCannotLock;
+		bool m_bRight;
+		bool m_bPauseFire;
+		#endregion 
+	
+	}
+}
