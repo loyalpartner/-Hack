@@ -152,6 +152,11 @@ protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bo
 	this.m_bFirstNoMoney = true;
 	this.m_iWaitShotTime = 0;
 	}
+		if (bY_GamePlayerNode.bUsingLock())
+	{
+		return;
+	}
+	BY_OperationPanel.instance.HandleOperationProp(310);
 }
 
 		
