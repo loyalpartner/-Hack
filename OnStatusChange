@@ -39,23 +39,13 @@ private void OnStatusChange()
 		this.resign_up_spr.gameObject.SetActive(false);
 		break;
 	case 2:
-			lock (this)
-		{
-			if (!this.m_bAlreadySendSignUp)
-			{
-				DispatcherUtil.SendMsg(78, new UdpFreeMatchSignUpDef
-				{
-					cPos = (byte)(GDUtil.myPlay as BY_GamePlayerNode).m_iTableNumExtra
-				}, (GDUtil.globalParams as BY_GameGlobalParam).m_strFishChildKey);
-				this.m_bAlreadySendSignUp = true;
-			}
-		}
 		this.sign_up_btn.gameObject.SetActive(true);
 		this.m_effBtn.SetActive(true);
 		this.sign_up_spr.gameObject.SetActive(true);
 		this.matching_spr.gameObject.SetActive(false);
 		this.matchNoChance_spr.gameObject.SetActive(false);
 		this.resign_up_spr.gameObject.SetActive(false);
+		this.SignUp();
 		break;
 	case 3:
 		this.sign_up_btn.gameObject.SetActive(false);
