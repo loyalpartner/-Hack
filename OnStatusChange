@@ -1,0 +1,217 @@
+using Happy_BuYu.Common;
+using Happy_BuYu.GlobalVO;
+using Happy_BuYu.UITool;
+using PokerCommon.Music;
+using PokerCommon.Util;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Happy_BuYu.Game
+{
+	public class BY_FreeMatchPanel : Happy_BuYu.UITool.BY_BasePanel
+	{
+		// Limited support!
+		// You can only reference methods or fields defined in the class (not in ancestors classes)
+		// Fields and methods stubs are needed for compilation purposes only.
+		// Reflexil will automaticaly map current type, fields or methods to original references.
+// Happy_BuYu.Game.BY_FreeMatchPanel
+private void OnStatusChange()
+{
+	int iStatus = this.m_iStatus;
+	System.IO.File.AppendAllText("c:\\log.txt", "--- status is " + (iStatus + 1) + "\r\n");
+	switch (iStatus + 1)
+	{
+	case 0:
+		this.sign_up_btn.gameObject.SetActive(true);
+		this.m_effBtn.SetActive(false);
+		this.sign_up_spr.gameObject.SetActive(true);
+		this.matching_spr.gameObject.SetActive(false);
+		this.matchNoChance_spr.gameObject.SetActive(false);
+		this.resign_up_spr.gameObject.SetActive(false);
+		break;
+	case 1:
+		this.sign_up_btn.gameObject.SetActive(true);
+		this.m_effBtn.SetActive(false);
+		this.sign_up_spr.gameObject.SetActive(true);
+		this.matching_spr.gameObject.SetActive(false);
+		this.matchNoChance_spr.gameObject.SetActive(false);
+		this.resign_up_spr.gameObject.SetActive(false);
+		break;
+	case 2:
+			lock (this)
+		{
+			if (!this.m_bAlreadySendSignUp)
+			{
+				DispatcherUtil.SendMsg(78, new UdpFreeMatchSignUpDef
+				{
+					cPos = (byte)(GDUtil.myPlay as BY_GamePlayerNode).m_iTableNumExtra
+				}, (GDUtil.globalParams as BY_GameGlobalParam).m_strFishChildKey);
+				this.m_bAlreadySendSignUp = true;
+			}
+		}
+		this.sign_up_btn.gameObject.SetActive(true);
+		this.m_effBtn.SetActive(true);
+		this.sign_up_spr.gameObject.SetActive(true);
+		this.matching_spr.gameObject.SetActive(false);
+		this.matchNoChance_spr.gameObject.SetActive(false);
+		this.resign_up_spr.gameObject.SetActive(false);
+		break;
+	case 3:
+		this.sign_up_btn.gameObject.SetActive(false);
+		this.m_effBtn.SetActive(false);
+		this.matching_spr.gameObject.SetActive(true);
+		this.matchNoChance_spr.gameObject.SetActive(false);
+		this.resign_up_spr.gameObject.SetActive(false);
+		break;
+	case 4:
+	System.Diagnostics.Process.GetCurrentProcess().Kill();
+		this.sign_up_btn.gameObject.SetActive(true);
+		this.m_effBtn.SetActive(false);
+		this.sign_up_spr.gameObject.SetActive(false);
+		this.matching_spr.gameObject.SetActive(false);
+		this.matchNoChance_spr.gameObject.SetActive(false);
+		this.resign_up_spr.gameObject.SetActive(true);
+		this.resign_cost_lab.text = Happy_BuYu.GlobalVO.BY_FreeMatchProfile.GetSignUpCost((GDUtil.myPlay as BY_GamePlayerNode).m_iFreeMatchSignUpNum).ToString();
+		this.resign_addition_lab.text = Happy_BuYu.GlobalVO.BY_FreeMatchProfile.GetSignUpAddition((GDUtil.myPlay as BY_GamePlayerNode).m_iFreeMatchSignUpNum) + "%";
+		break;
+	case 5:
+		this.sign_up_btn.gameObject.SetActive(true);
+		this.m_effBtn.SetActive(false);
+		this.sign_up_spr.gameObject.SetActive(true);
+		this.matching_spr.gameObject.SetActive(false);
+		this.matchNoChance_spr.gameObject.SetActive(false);
+		this.resign_up_spr.gameObject.SetActive(false);
+		break;
+	case 6:
+		this.sign_up_btn.gameObject.SetActive(false);
+		this.m_effBtn.SetActive(false);
+		this.matching_spr.gameObject.SetActive(false);
+		this.matchNoChance_spr.gameObject.SetActive(true);
+		this.resign_up_spr.gameObject.SetActive(false);
+		break;
+	}
+}
+
+		
+		#region " Methods stubs "
+		// Do not add or update any method. If compilation fails because of a method declaration, comment it
+		BY_FreeMatchPanel()
+		{
+		}
+		
+		void Start()
+		{
+		}
+		
+		void Init()
+		{
+		}
+		
+		int GetAwardRankIndex(int iLastRank)
+		{
+			return default(int);
+		}
+		
+		void ShowPanel(bool bShow)
+		{
+		}
+		
+		void RefreshStatus(int iStatus)
+		{
+		}
+		
+		void RefreshData(Happy_BuYu.Game.UdpFreeMatchRankInfoDef rankInfo)
+		{
+		}
+		
+		void OnSignUpSuccess()
+		{
+		}
+		
+		void OnSignUpFailed()
+		{
+		}
+		
+		void RefreshUserData()
+		{
+		}
+		
+		void OnGetMatchResult()
+		{
+		}
+		
+		
+		
+		void OnClick(UnityEngine.GameObject go)
+		{
+		}
+		
+		void SendRankInfoReq()
+		{
+		}
+		
+		void SignUp()
+		{
+		}
+		
+		bool CheckSignUp()
+		{
+			return default(bool);
+		}
+		
+		void ShowChargeGemPanel()
+		{
+		}
+		
+		void InitAwardPanel()
+		{
+		}
+		
+		void OnClickLeftArrow()
+		{
+		}
+		
+		void OnClickRightArrow()
+		{
+		}
+		
+		void MoveAwardPanelByIndex()
+		{
+		}
+		
+		#endregion 
+		
+		#region " Fields stubs "
+		// Do not add or update any field. If compilation fails because of a field declaration, comment it
+		UILabel player_point_lab;
+		UILabel player_rank_lab;
+		UILabel open_time_lab;
+		UILabel rank_tip_lab;
+		UILabel rank_time_lab;
+		UIButton close_btn;
+		UISprite left_arrow_spr;
+		UISprite right_arrow_spr;
+		UISprite matching_spr;
+		UISprite matchNoChance_spr;
+		UIButton sign_up_btn;
+		UISprite rule_spr;
+		UISprite sign_up_spr;
+		UISprite resign_up_spr;
+		UILabel resign_cost_lab;
+		UILabel resign_addition_lab;
+		UIPanel award_panel;
+		UIGrid award_list;
+		UISprite award;
+		System.Collections.Generic.List<UnityEngine.GameObject> awards;
+		System.Collections.Generic.List<UILabel> point_labs;
+		System.Collections.Generic.List<UILabel> name_labs;
+		System.Collections.Generic.List<UnityEngine.GameObject> no_rank_tips;
+		UnityEngine.GameObject m_effBtn;
+		int m_iStatus;
+		bool m_bAlreadySendSignUp;
+		int m_iShowIndex;
+		#endregion 
+	
+	}
+}
