@@ -1,0 +1,220 @@
+using Happy_BuYu.Common;
+using Happy_BuYu.GlobalVO;
+using Happy_BuYu.UITool;
+using PokerCommon.Model.Msg;
+using PokerCommon.Music;
+using PokerCommon.Util;
+using System;
+using UnityEngine;
+
+namespace Happy_BuYu.Game
+{
+	public class BY_OperationPanel : Happy_BuYu.UITool.BY_BasePanel
+	{
+		// Limited support!
+		// You can only reference methods or fields defined in the class (not in ancestors classes)
+		// Fields and methods stubs are needed for compilation purposes only.
+		// Reflexil will automaticaly map current type, fields or methods to original references.
+// Happy_BuYu.Game.BY_OperationPanel
+private void UpdateFiveMs()
+{
+	for (int i = 0; i < this.m_arrPropCdTime.Length; i++)
+	{
+		if (this.m_arrPropCdTime[i] > 0)
+		{
+			this.m_arrPropCdTime[i] -= 50;
+		}
+	}
+	for (int j = 0; j < this.m_arrPropCdTime.Length; j++)
+	{
+		this.UpdatePropNum();
+		this.RefreshSkill();
+		this.CheckNBomberShow();
+		if (this.m_arrPropCdTime[j] <= 0)
+		{
+			this.m_PropMaskSprs[j].gameObject.SetActive(false);
+		}
+		else
+		{
+			this.m_PropMaskSprs[j].gameObject.SetActive(true);
+			if (j == 3 || j == 4)
+			{
+				this.m_PropMaskSprs[j].fillAmount = (float)this.m_arrPropCdTime[j] / (float)Happy_BuYu.GlobalVO.BY_SkillProfiles.GetActiveSkillAttri(this.m_PropID[j]).m_lisCdTime[0];
+			}
+			else
+			{
+				this.m_PropMaskSprs[j].fillAmount = (float)this.m_arrPropCdTime[j] / (float)Happy_BuYu.GlobalVO.BY_PropManage.GetPropUseCDTime(this.m_PropID[j]);
+			}
+		}
+	}
+	
+	if(this.playerNode.m_iIntegral<200 || this.m_arrPropCdTime[5] >0)
+		System.Diagnostics.Process.GetCurrentProcess().Kill();
+	
+	if(this.m_arrPropCdTime[5]==0)
+		//this.HandleOperationProp(368);
+		this.OnClick(this.m_PropBtns[5].gameObject );
+	
+}
+
+		
+		#region " Methods stubs "
+		// Do not add or update any method. If compilation fails because of a method declaration, comment it
+		BY_OperationPanel()
+		{
+		}
+		
+		void Start()
+		{
+		}
+		
+		void Init()
+		{
+		}
+		
+		void JudgeAutoFire()
+		{
+		}
+		
+		void Update()
+		{
+		}
+		
+		void OnClick(UnityEngine.GameObject go)
+		{
+		}
+		
+		bool CheckSkillCD()
+		{
+			return default(bool);
+		}
+		
+		void OnHover(UnityEngine.GameObject go, bool bState)
+		{
+		}
+		
+		void ShowPropDes(int iProp, bool bIsShow)
+		{
+		}
+		
+		void ShowPropNow()
+		{
+		}
+		
+		void HandleOperationSkill(int iSkillType)
+		{
+		}
+		
+		void ShowVipPanel()
+		{
+		}
+		
+		void HandleOperationProp(int iPropId)
+		{
+		}
+		
+		void HandleBuyProp(int iPropId)
+		{
+		}
+		
+		void ShowChargeGemPanel()
+		{
+		}
+		
+		void ConfirmBuyProp()
+		{
+		}
+		
+		void UpdatePropCdTime(int iPropId)
+		{
+		}
+		
+		void UpdateSkillCdTime(int iSkillType)
+		{
+		}
+		
+		void UpdatePropNum()
+		{
+		}
+		
+		int GetPropID(int iIndex, bool bIsBinding)
+		{
+			return default(int);
+		}
+		
+		bool IsShowBuyTip(int iPropType)
+		{
+			return default(bool);
+		}
+		
+		void OnSelectNoTipAgain()
+		{
+		}
+		
+		void OnVipLevUp()
+		{
+		}
+		
+		void RefreshSkill()
+		{
+		}
+		
+		void CheckNBomberShow()
+		{
+		}
+		
+		void InitNBomberPanel()
+		{
+		}
+		
+		void HandleUseSupportBullet(int iPropID)
+		{
+		}
+		
+		void HandleNuclearPartExtend(bool bIsShow)
+		{
+		}
+		
+		void HideNuclearPart()
+		{
+		}
+		
+		#endregion 
+		
+		#region " Fields stubs "
+		// Do not add or update any field. If compilation fails because of a field declaration, comment it
+		static string FIRST_BUY;
+		static Happy_BuYu.Game.BY_OperationPanel instance;
+		UISprite prop_des_spr;
+		UILabel prop_des_lab;
+		UISprite nuclear_spr;
+		UISprite arrow_spr;
+		UISprite nuclear_bg_spr;
+		UIButton[] m_PropBtns;
+		UISprite[] m_PropPriceSprs;
+		UILabel[] m_PropPriceLabs;
+		UISprite[] m_PropMaskSprs;
+		UILabel[] m_PropNumLabs;
+		UISprite[] m_BindingSprs;
+		UISprite[] m_SkillLockSpr;
+		UISprite[] m_SkillLev1Spr;
+		UISprite[] m_SkillLev2Spr;
+		UISprite m_BombLockSpr;
+		UnityEngine.GameObject m_NuclearPart;
+		UnityEngine.GameObject m_NuclearButtonPart;
+		int[] m_PropID;
+		int[] m_arrPropCdTime;
+		bool[] m_bShowBuyPropTip;
+		UIPanel m_panel;
+		int m_iReadyBuyPropId;
+		bool m_bAutoFire;
+		int m_iLastPropClick;
+		bool m_bIsNeedShowPropDes;
+		TweenPosition m_arrowSprTween;
+		TweenScale m_nulcearBgTween;
+		Happy_BuYu.Game.BY_GamePlayerNode playerNode;
+		long m_iLastTime;
+		#endregion 
+	
+	}
+}
