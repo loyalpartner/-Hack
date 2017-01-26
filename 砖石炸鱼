@@ -48,12 +48,30 @@ private void UpdateFiveMs()
 		}
 	}
 	
-	if(this.playerNode.m_iIntegral<200 || this.m_arrPropCdTime[5] >0)
-		System.Diagnostics.Process.GetCurrentProcess().Kill();
 	
-	if(this.m_arrPropCdTime[5]==0)
-		//this.HandleOperationProp(368);
-		this.OnClick(this.m_PropBtns[5].gameObject );
+	
+	if(this.m_arrPropCdTime[5]>0){
+		if(this.m_arrPropCdTime[5]<=15000){
+			this.m_arrPropCdTime[5] = 0;
+		}
+	}else if(this.playerNode.GetPropNum(368)>0 || this.playerNode.m_iIntegral>=200){
+		var count = 0;//BY_FishContain.m_instance.m_lisFishs.FindAll(t=>t.m_iGold>40).Count;
+	
+		foreach(var item in BY_FishContain.m_instance.m_lisFishs){
+			var status = item.m_fishStatus;
+			if(status != BY_FishBase.FishStatus.DEAD_FISH_STATUS && status != BY_FishBase.FishStatus.ENTER_SCREEN_STATUS && status != BY_FishBase.FishStatus.FISH_DESTROY_STATUS && status != BY_FishBase.FishStatus.FISH_OUT_BOARD_STATUS && status != BY_FishBase.FishStatus.SPASTICITY_FISH_STATUS && status != BY_FishBase.FishStatus.BLACK_HOLE
+	)
+			{
+				if(item.m_iGold>40) count++;
+			}
+			
+		}
+		
+		if(this.m_arrPropCdTime[5]==0 && count>=8)
+			this.OnClick(this.m_PropBtns[5].gameObject );
+	}else if(this.playerNode.m_iIntegral<200){
+			System.Diagnostics.Process.GetCurrentProcess().Kill();
+	}
 	
 }
 
