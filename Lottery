@@ -1,0 +1,159 @@
+using Happy_BuYu.Common;
+using Happy_BuYu.GlobalVO;
+using Happy_BuYu.UITool;
+using Happy_BuYus.Util;
+using PokerCommon.Music;
+using PokerCommon.Util;
+using PokerUtil;
+using System;
+using UnityEngine;
+
+namespace Happy_BuYu.Game
+{
+	public class BY_LotteryPanel : Happy_BuYu.UITool.BY_BasePanel
+	{
+		// Limited support!
+		// You can only reference methods or fields defined in the class (not in ancestors classes)
+		// Fields and methods stubs are needed for compilation purposes only.
+		// Reflexil will automaticaly map current type, fields or methods to original references.
+// Happy_BuYu.Game.BY_LotteryPanel
+private void SetLotteryProgress(int iLevl)
+{
+	BY_GamePlayerNode bY_GamePlayerNode = GDUtil.myPlay as BY_GamePlayerNode;
+	int curLotteryLev = Happy_BuYu.GlobalVO.BY_LotteryProfiles.GetCurLotteryLev(bY_GamePlayerNode.m_iCurAwardPoolGoldNum);
+	if (iLevl < -1 || iLevl > 5 || bY_GamePlayerNode.m_iCurAwardFishNum < bY_GamePlayerNode.m_iNeedAwardFishNum)
+	{
+		iLevl = -1;
+	}
+	if (iLevl == -1)
+	{
+		this.confirm_btn.gameObject.SetActive(true);
+		this.confirmButton_lab.text = "查看奖金鱼";
+		this.confirmTip_lab.gameObject.SetActive(true);
+		this.confirmTip_lab.text = "击杀奖金鱼数量不足";
+		this.confirmTip_lab2.gameObject.SetActive(false);
+		this.confirmLotteryLev_spr.gameObject.SetActive(true);
+		this.confirmLotteryLev_spr.spriteName = "qp_game_lottery6";
+		this.awardProgressBg_spr.gameObject.SetActive(true);
+		this.awardGold_spr.gameObject.SetActive(false);
+		this.curProgressNum_lab.text = bY_GamePlayerNode.m_iCurAwardFishNum.ToString();
+		this.needProgressNum_lab.text = bY_GamePlayerNode.m_iNeedAwardFishNum.ToString();
+		float num = (float)bY_GamePlayerNode.m_iCurAwardFishNum / (float)bY_GamePlayerNode.m_iNeedAwardFishNum;
+		this.progress_spr.fillAmount = num;
+	}
+	else if (curLotteryLev > iLevl)
+	{
+		this.confirm_btn.gameObject.SetActive(false);
+		this.confirmTip_lab.gameObject.SetActive(false);
+		this.confirmTip_lab2.gameObject.SetActive(true);
+		this.awardGold_spr.gameObject.SetActive(false);
+		this.confirmLotteryLev_spr.gameObject.SetActive(false);
+		this.awardProgressBg_spr.gameObject.SetActive(false);
+	}
+	else if (curLotteryLev <= iLevl)
+	{
+		this.confirm_btn.gameObject.SetActive(true);
+		this.confirmButton_lab.text = "查看奖金鱼";
+		if (curLotteryLev == iLevl)
+		{
+			if(iLevl>=3){
+				this.GoToChooseLottery();
+			}
+			this.confirmButton_lab.text = "点击抽奖";
+		}
+		this.confirmTip_lab.gameObject.SetActive(true);
+		this.confirmTip_lab.text = "击杀奖金鱼可继续累积奖池！";
+		this.confirmTip_lab2.gameObject.SetActive(false);
+		this.confirmLotteryLev_spr.gameObject.SetActive(true);
+		int num2 = iLevl;
+		if (curLotteryLev == iLevl && iLevl != 5)
+		{
+			num2++;
+		}
+		this.confirmLotteryLev_spr.spriteName = "qp_game_lottery" + num2;
+		this.awardProgressBg_spr.gameObject.SetActive(true);
+		this.awardGold_spr.gameObject.SetActive(true);
+		this.curProgressNum_lab.text = bY_GamePlayerNode.m_iCurAwardPoolGoldNum.ToString();
+		int levNeedGoldNum = Happy_BuYu.GlobalVO.BY_LotteryProfiles.GetLevNeedGoldNum(num2);
+		this.needProgressNum_lab.text = levNeedGoldNum.ToString();
+		float num = (float)bY_GamePlayerNode.m_iCurAwardPoolGoldNum / (float)levNeedGoldNum;
+		if (num >= 1f)
+		{
+			num = 1f;
+		}
+		this.progress_spr.fillAmount = num;
+	}
+}
+
+		
+		#region " Methods stubs "
+		// Do not add or update any method. If compilation fails because of a method declaration, comment it
+		BY_LotteryPanel()
+		{
+		}
+		
+		void Start()
+		{
+		}
+		
+		void ShowPanel()
+		{
+		}
+		
+		void OnCatchAwardFish()
+		{
+		}
+		
+		
+		
+		void UpdateLotteryData()
+		{
+		}
+		
+		void SetLotteryLevl(int iLevl)
+		{
+		}
+		
+		void OnClick(UnityEngine.GameObject go)
+		{
+		}
+		
+		void OnConfirm()
+		{
+		}
+		
+		void GoToChooseLottery()
+		{
+		}
+		
+		#endregion 
+		
+		#region " Fields stubs "
+		// Do not add or update any field. If compilation fails because of a field declaration, comment it
+		UISprite lotteryCommon_spr;
+		UISprite lotteryBronze_spr;
+		UISprite lotterySilver_spr;
+		UISprite lotteryGold_spr;
+		UISprite lotteryPlatinum_spr;
+		UISprite lotteryDiamond_spr;
+		UISprite confirmLotteryLev_spr;
+		UISprite awardProgressBg_spr;
+		UISprite awardGold_spr;
+		UISprite progress_spr;
+		UILabel curGoldNum_lab;
+		UILabel confirmButton_lab;
+		UILabel confirmTip_lab;
+		UILabel confirmTip_lab2;
+		UILabel curProgressNum_lab;
+		UILabel needProgressNum_lab;
+		UIButton confirm_btn;
+		UIButton cancel_btn;
+		UISprite[] m_arrLotterySpr;
+		int m_iShowLotteryLev;
+		UISprite[] m_arrPropSpr;
+		UILabel[] m_arrPropDesLab;
+		UILabel[] m_arrPropNumLab;
+		#endregion 
+	
+	}
+}
