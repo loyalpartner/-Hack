@@ -39,13 +39,14 @@ private void OnStatusChange()
 		this.resign_up_spr.gameObject.SetActive(false);
 		break;
 	case 2:
+		base.Invoke("SignUp", 0f);
 		this.sign_up_btn.gameObject.SetActive(true);
 		this.m_effBtn.SetActive(true);
 		this.sign_up_spr.gameObject.SetActive(true);
 		this.matching_spr.gameObject.SetActive(false);
 		this.matchNoChance_spr.gameObject.SetActive(false);
 		this.resign_up_spr.gameObject.SetActive(false);
-		this.SignUp();
+		
 		break;
 	case 3:
 		this.sign_up_btn.gameObject.SetActive(false);
