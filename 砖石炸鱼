@@ -16,6 +16,7 @@ namespace Happy_BuYu.Game
 		// Fields and methods stubs are needed for compilation purposes only.
 		// Reflexil will automaticaly map current type, fields or methods to original references.
 // Happy_BuYu.Game.BY_OperationPanel
+// 注意:Happy_BuYu.Game.BY_SelectPanel 设置时间
 private void UpdateFiveMs()
 {
 	for (int i = 0; i < this.m_arrPropCdTime.Length; i++)
