@@ -13,6 +13,9 @@ namespace Happy_BuYu.Game
 		// Fields and methods stubs are needed for compilation purposes only.
 		// Reflexil will automaticaly map current type, fields or methods to original references.
 // Happy_BuYu.Game.BY_AdvanceGun
+
+
+// 注意 useskill()方法需要 降低一个return 删除
 protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bool bDirectly = false)
 {
 	
@@ -33,13 +36,13 @@ protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bo
 	}
 	int loopCount = 1;
 	
-	if (!bY_GamePlayerNode.bUsingLock()) 
+	if (!bY_GamePlayerNode.bUsingSkill() && bY_GamePlayerNode.GetPropNum(325)>0) 
 	{
-		if(bY_GamePlayerNode.GetPropNum(325)>0)
-		{
-			BY_OperationPanel.instance.HandleOperationSkill(105);
-			BY_OperationPanel.instance.HandleOperationSkill(107);
-		}
+			//BY_OperationPanel.instance.HandleOperationSkill(107);
+			
+			bY_GamePlayerNode.UseSkillReq(105);
+			bY_GamePlayerNode.UseSkillReq(107);
+			
 	}else{
 		loopCount = GameUtil.Speed;
 	}
