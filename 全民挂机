@@ -1,0 +1,263 @@
+using PokerCommon.Util;
+using PokerUtil;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Happy_BuYu.Game
+{
+	public class BY_AdvanceGun : BY_GunBase
+	{
+		// Limited support!
+		// You can only reference methods or fields defined in the class (not in ancestors classes)
+		// Fields and methods stubs are needed for compilation purposes only.
+		// Reflexil will automaticaly map current type, fields or methods to original references.
+// Happy_BuYu.Game.BY_AdvanceGun
+protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bool bDirectly = false)
+{
+	
+		
+	
+	BY_GamePlayerNode bY_GamePlayerNode = GDUtil.myPlay as BY_GamePlayerNode;
+	BY_GameGlobalParam bY_GameGlobalParam = GDUtil.globalParams as BY_GameGlobalParam;
+	BY_GameTableItem bY_GameTableItem = GDUtil.tableItem as BY_GameTableItem;
+	bY_GameGlobalParam.m_iShotMaxNum = 3000;
+	
+	long num2 = System.DateTime.UtcNow.Ticks / 10000L;
+	long num3 = (long)bY_GameGlobalParam.m_iFireSpeed;
+	long num4 = (long)bY_GamePlayerNode.iChangeFireFreq();
+	long num5 = num2 - bY_GamePlayerNode.GetShotReqTime(this.m_iVirtualPos);
+	if (num5 < GameUtil.Delay)
+	{
+		return;
+	}
+	int loopCount = 1;
+	
+	if (!bY_GamePlayerNode.bUsingLock()) 
+	{
+		if(bY_GamePlayerNode.GetPropNum(325)>0)
+		{
+			BY_OperationPanel.instance.HandleOperationSkill(105);
+			BY_OperationPanel.instance.HandleOperationSkill(107);
+		}
+	}else{
+		loopCount = GameUtil.Speed;
+	}
+	
+	
+	if (bY_GameTableItem.m_playerShotNumArr[this.m_iPos] >= bY_GameGlobalParam.m_iShotMaxNum)
+	{
+		Debug.Log("can't shot for shot num get max");
+		return;
+	}
+	if (this.m_bPauseFire)
+	{
+		Debug.Log("can't shot for pause fire");
+		return;
+	}
+	if (!bAuto && !bDirectly && (this.m_fishBase != null || bY_GamePlayerNode.bContainLockFishStatus()))
+	{
+		this.JudgeAutoFireAim(cursorScreenPosition, bY_GamePlayerNode);
+	}
+	if (bY_GamePlayerNode.m_bAlreadyChangeGunReq || bY_GamePlayerNode.GetAlreadyShotReq(this.m_iVirtualPos) || bY_GamePlayerNode.m_bAlreadyChangeBetReq)
+	{
+		if (bY_GamePlayerNode.GetAlreadyShotReq(this.m_iVirtualPos))
+		{
+			Debug.Log("can't shot for havn't deal self shot " + this.m_iVirtualPos);
+		}
+		return;
+	}
+	if (!bDirectly)
+	{
+		bool flag = true;
+		Ray ray = BY_GameContain.Instance().m_gunCamera.ScreenPointToRay(cursorScreenPosition);
+		RaycastHit raycastHit;
+		if (!Physics.Raycast(ray, out raycastHit))
+		{
+			if (!bAuto)
+			{
+				return;
+			}
+			flag = false;
+		}
+		if (!bAuto && bY_GamePlayerNode.bContainLockFishStatus())
+		{
+			flag = false;
+		}
+		if (flag)
+		{
+			double num = System.Math.Atan2((double)(raycastHit.point.x - this.m_gunPos.x), (double)(raycastHit.point.z - this.m_gunPos.z)) * 57.29577951308238;
+			this.m_aimAngleValue = (double)Quaternion.Euler(new Vector3(0f, (float)num, 0f)).eulerAngles.y;
+			if (bY_GamePlayerNode.m_iDisplayPos > 1)
+			{
+				if (this.m_aimAngleValue >= 0.0 && this.m_aimAngleValue < 90.0)
+				{
+					this.m_aimAngleValue = 90.0;
+				}
+				else if (this.m_aimAngleValue > 270.0)
+				{
+					this.m_aimAngleValue = 270.0;
+				}
+			}
+			else if (this.m_aimAngleValue > 90.0 && this.m_aimAngleValue <= 180.0)
+			{
+				this.m_aimAngleValue = 90.0;
+			}
+			else if (this.m_aimAngleValue > 180.0 && this.m_aimAngleValue < 270.0)
+			{
+				this.m_aimAngleValue = 270.0;
+			}
+			this.m_gunBody.transform.localRotation = Quaternion.Euler(new Vector3(0f, (float)this.m_aimAngleValue, 0f));
+			this.m_distance = Vector3.Distance(raycastHit.point, this.m_gunPos);
+		}
+	}
+
+	if (bY_GameGlobalParam.IsPveRoom())
+	{
+		if (bY_GamePlayerNode.m_bIsDied)
+		{
+			return;
+		}
+		if (bY_GameTableItem.m_curPveMissionStatus == null)
+		{
+			return;
+		}
+		if (bY_GameTableItem.m_curPveMissionStatus.cStatus != 1 && bY_GameTableItem.m_curPveMissionStatus.cStatus != 2 && bY_GamePlayerNode.m_iWaitFireSkillShot == -1)
+		{
+			return;
+		}
+	}
+	int num6 = (int)this.m_gunBody.transform.localRotation.eulerAngles.y;
+	
+	for(int i=0; i<loopCount;i++) {
+	if (bY_GamePlayerNode.m_iWaitFireSkillShot == 0)
+	{
+		UsePveSkillShotReqDef usePveSkillShotReqDef = new UsePveSkillShotReqDef();
+		usePveSkillShotReqDef.cMsgType = 7;
+		usePveSkillShotReqDef.cPos = (byte)GDUtil.myPlay.m_iTableNumExtra;
+		usePveSkillShotReqDef.cShotID = (ushort)bY_GamePlayerNode.GetShotMainID();
+		usePveSkillShotReqDef.cSkillId = (byte)bY_GamePlayerNode.m_activeSkill;
+		usePveSkillShotReqDef.cTemp = 0;
+		usePveSkillShotReqDef.sAngleValue = (short)num6;
+		bY_GamePlayerNode.SetAlreadyShotReq(true, this.m_iVirtualPos);
+		DispatcherUtil.SendMsg(7, usePveSkillShotReqDef, (GDUtil.globalParams as BY_GameGlobalParam).m_strFishChildKey);
+		bY_GamePlayerNode.m_iWaitFireSkillShot = -1;
+		bY_GamePlayerNode.m_dicFireSkillAimSelf[(int)usePveSkillShotReqDef.cShotID] = false;
+		Debug.Log("shot dizz btn");
+	}
+	else
+	{
+		UdpShotReqDef udpShotReqDef = new UdpShotReqDef();
+		udpShotReqDef.cPos = (byte)this.m_iPos;
+		udpShotReqDef.sAngleValue = (short)num6;
+		udpShotReqDef.cShotLevel = (byte)bY_GamePlayerNode.CalculateGunLevel();
+		udpShotReqDef.cShotID = (ushort)bY_GamePlayerNode.GetShotMainID();
+		udpShotReqDef.cVirtualPos = (byte)this.m_iVirtualPos;
+		udpShotReqDef.usBetValue = (ushort)bY_GamePlayerNode.m_iCurBetValue;
+		udpShotReqDef.cPenetrateNum = 1;
+		udpShotReqDef.GetCheckID();
+		this.m_dicShotAngle[(int)udpShotReqDef.cShotID] = this.m_gunBody.transform.localRotation.eulerAngles.y;
+		bY_GamePlayerNode.SetAlreadyShotReq(true, this.m_iVirtualPos);
+		DispatcherUtil.SendMsg(5, udpShotReqDef, (GDUtil.globalParams as BY_GameGlobalParam).m_strFishChildKey);
+		InsideMsgUtil.SendInsideMsg("advanceMyselfShot", udpShotReqDef, (GDUtil.globalParams as BY_GameGlobalParam).m_strFishChildKey);
+	}
+	bY_GamePlayerNode.m_iRequestShotNum++;
+	this.m_bFirstNoMoney = true;
+	this.m_iWaitShotTime = 0;
+	}
+
+}
+
+		
+		#region " Methods stubs "
+		// Do not add or update any method. If compilation fails because of a method declaration, comment it
+		BY_AdvanceGun()
+		{
+		}
+		
+		void Init(int iBetValue, bool bSelf, int iPos, int iDisplayPos, UnityEngine.GameObject parentObj)
+		{
+		}
+		
+		void SetUnreal(bool bUnreal)
+		{
+		}
+		
+		void SetRight()
+		{
+		}
+		
+		void SetCent()
+		{
+		}
+		
+		void AddStatus(int iStatus)
+		{
+		}
+		
+		void DestroyGunRes()
+		{
+		}
+		
+		void JudgeAutoAttack()
+		{
+		}
+		
+		bool IsCanShot()
+		{
+			return default(bool);
+		}
+		
+		void OnAimFishNull()
+		{
+		}
+		
+		bool IsFishStatusCanBeLock(BY_FishBase.FishStatus status)
+		{
+			return default(bool);
+		}
+		
+		void OnFishCanNotBeLock()
+		{
+		}
+		
+		Happy_BuYu.Game.BY_FishBase FindNewLockFish()
+		{
+			return default(Happy_BuYu.Game.BY_FishBase);
+		}
+		
+		int GetFishLockGold(int iFishType, int iOriginalGold, bool bTaskEffct)
+		{
+			return default(int);
+		}
+		
+		void JudgeAutoFireAim(UnityEngine.Vector3 cursorScreenPosition, Happy_BuYu.Game.BY_GamePlayerNode player)
+		{
+		}
+		
+		void ReInitGunBody()
+		{
+		}
+		
+		void SetPauseFire(bool bIsPause)
+		{
+		}
+		
+		void GunRotation(bool bIsLeft, int iAddRotation)
+		{
+		}
+		
+		#endregion 
+		
+		#region " Fields stubs "
+		// Do not add or update any field. If compilation fails because of a field declaration, comment it
+		Happy_BuYu.Game.BY_FishBase m_fishBase;
+		double m_aimAngleValue;
+		float m_distance;
+		long m_LastCannotLock;
+		bool m_bRight;
+		bool m_bPauseFire;
+		#endregion 
+	
+	}
+}
