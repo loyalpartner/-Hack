@@ -34,17 +34,15 @@ protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bo
 	{
 		return;
 	}
-	int loopCount = 1;
+	int loopCount = 2;
 	
-	if (!bY_GamePlayerNode.bUsingSkill() && bY_GamePlayerNode.GetPropNum(325)>0) 
+	if (!bY_GamePlayerNode.bUsingLock() && bY_GamePlayerNode.GetPropNum(325)>0) 
 	{
 			//BY_OperationPanel.instance.HandleOperationSkill(107);
 			
 			bY_GamePlayerNode.UseSkillReq(105);
 			bY_GamePlayerNode.UseSkillReq(107);
 			
-	}else{
-		loopCount = GameUtil.Speed;
 	}
 	
 	
