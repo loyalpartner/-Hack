@@ -1,0 +1,76 @@
+using Happy_BuYu.GlobalVO;
+using Happy_BuYu.Lobby;
+using PokerCommon.MsgIntercept.Interface;
+using PokerCommon.Net.Interface;
+using PokerUtil;
+using System;
+using UnityEngine;
+
+namespace Happy_BuYu.Login
+{
+	public class BY_LoginCommand{
+		// Limited support!
+		// You can only reference methods or fields defined in the class (not in ancestors classes)
+		// Fields and methods stubs are needed for compilation purposes only.
+		// Reflexil will automaticaly map current type, fields or methods to original references.
+// Happy_BuYu.Login.BY_LoginCommand
+public void HandleInsideMsg(string strMsgType, object msgContent)
+{
+	if (strMsgType != null)
+	{
+		if (strMsgType == "socketNotLink")
+		{
+			Happy_BuYu.Lobby.BY_LbHttpMsgReq.ClearReqMsg();
+			return;
+		}
+		if (strMsgType == "socketError")
+		{
+			Debug.Log((msgContent as SocketDetailInfo).errorContent);
+			return;
+		}
+		if (strMsgType == "socketLinkSuccess")
+		{
+		Happy_BuYu.GlobalVO.BY_GlobalData.g_pid ="10";
+			Happy_BuYu.GlobalVO.BY_GlobalData.m_iUserId = Convert.ToInt32(Happy_BuYu.GlobalVO.BY_GlobalData.g_openId);
+			Happy_BuYu.GlobalVO.BY_GlobalData.m_szUserToken = Happy_BuYu.GlobalVO.BY_GlobalData.g_openKey;
+			Application.LoadLevel("BY_Lobby");
+			return;
+		}
+		if (!(strMsgType == "baseErrorInfo"))
+		{
+			return;
+		}
+		BaseErrorInfo baseErrorInfo = msgContent as BaseErrorInfo;
+		Happy_BuYu.Lobby.BY_LbHttpMsgReq.GetMsgRes(baseErrorInfo.reqType);
+		CommonRes commonRes = XConvert.ToObject<CommonRes>(baseErrorInfo.data);
+		this.HandleCommonError(baseErrorInfo.reqType, commonRes.iCode, commonRes.szMsgText);
+	}
+}
+
+		
+		#region " Methods stubs "
+		// Do not add or update any method. If compilation fails because of a method declaration, comment it
+		BY_LoginCommand()
+		{
+		}
+		
+		void UpdateFiftyMs()
+		{
+		}
+		
+		void HandleNetMsg(int iMsgType, System.Byte[] pMsg, int iLen, string strSocketDispatcherKey)
+		{
+		}
+		
+		void HandleCommonError(int iReqType, int iErrorType, string errorInfo)
+		{
+		}
+		
+		#endregion 
+		
+		#region " Fields stubs "
+		// Do not add or update any field. If compilation fails because of a field declaration, comment it
+		#endregion 
+	
+	}
+}
