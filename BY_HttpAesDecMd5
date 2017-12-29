@@ -1,0 +1,125 @@
+using Happy_BuYu.GlobalVO;
+using PokerCommon.Model.Msg;
+using PokerCommon.Net.Interface;
+using PokerCommon.Util;
+using PokerUtil;
+using System;
+using System.Security.Cryptography;
+
+namespace Lobby.Net
+{
+	public class BY_HttpAesDecMd5 : IAesDec
+	{
+		public const int SIGN_LEN = 32;
+
+		public const int MSGTYPE_LEN = 4;
+
+		public const int TIMESTAMP_LEN = 4;
+
+		public const string KEY = "stpx1!#s0f8p6v5sdq";
+
+		public static string[] g_strTable = new string[]
+		{
+			"0",
+			"1",
+			"2",
+			"3",
+			"4",
+			"5",
+			"6",
+			"7",
+			"8",
+			"9",
+			"a",
+			"b",
+			"c",
+			"d",
+			"e",
+			"f"
+		};
+
+		private static byte[] keyCode;
+
+		public BY_HttpAesDecMd5()
+		{
+			if (BY_HttpAesDecMd5.keyCode == null)
+			{
+				BY_HttpAesDecMd5.keyCode = new byte["stpx1!#s0f8p6v5sdq".Length];
+				for (int i = 0; i < "stpx1!#s0f8p6v5sdq".Length; i++)
+				{
+					BY_HttpAesDecMd5.keyCode[i] = (byte)"stpx1!#s0f8p6v5sdq"[i];
+				}
+			}
+		}
+
+		public byte[] Encrypt(byte[] data)
+		{
+			int iMsgType = XConvert.ToObject<LBMsgHeadDef>(data).iMsgType;
+			int iUserID = XConvert.ToObject<LBMsgHeadDef>(data).iUserID;
+			string szUserToken = XConvert.ToObject<LBMsgHeadDef>(data).szUserToken;
+			byte[] array = new byte[data.Length - 4];
+			NewLBMsgHeadDef newLBMsgHeadDef = new NewLBMsgHeadDef();
+			iUserID = Happy_BuYu.GlobalVO.BY_GlobalData.m_iUserId;
+			szUserToken = Happy_BuYu.GlobalVO.BY_GlobalData.m_szUserToken;
+			newLBMsgHeadDef.iUserID = iUserID;
+			newLBMsgHeadDef.szUserToken = szUserToken;
+			byte[] array2 = XConvert.ToByte(newLBMsgHeadDef);
+			Array.Copy(array2, 0, array, 0, array2.Length);
+			Array.Copy(data, XConvert.GetObjectSize<LBMsgHeadDef>(), array, array2.Length, array.Length - array2.Length);
+			int timestamp = (int)(DateTime.Now - new DateTime(1970, 1, 1, 8, 0, 0)).TotalSeconds;
+			byte[] array3 = new byte[XConvert.GetObjectSize<TempArray>() + array.Length + BY_HttpAesDecMd5.keyCode.Length];
+			TempArray tempArray = new TempArray();
+			tempArray.msgType = iMsgType;
+			tempArray.timestamp = timestamp;
+			string text = "";
+			string g_openKey = Happy_BuYu.GlobalVO.BY_GlobalData.g_openKey;
+			for (int i = 8; i < 14; i++)
+			{
+				text += g_openKey.Substring(i * 2, 2);
+			}
+			tempArray.szMac = text;
+			tempArray.iPlatform = Happy_BuYu.GlobalVO.BY_CenterServerManage.m_iLoginType;
+			if (Happy_BuYu.GlobalVO.BY_CenterServerManage.m_iRunType != 3)
+			{
+				tempArray.iAgentID = 11;
+			}
+			else
+			{
+				tempArray.iAgentID = Happy_BuYu.GlobalVO.BY_GlobalData.g_tranformPid;
+			}
+			tempArray.szVersion = GDUtil.globalParams.m_strVersionNum;
+			byte[] array4 = XConvert.ToByte(tempArray);
+			Array.Copy(array4, 0, array3, 0, array4.Length);
+			Array.Copy(array, 0, array3, array4.Length, array.Length);
+			Array.Copy(BY_HttpAesDecMd5.keyCode, 0, array3, array4.Length + array.Length, BY_HttpAesDecMd5.keyCode.Length);
+			MD5CryptoServiceProvider mD5CryptoServiceProvider = new MD5CryptoServiceProvider();
+			byte[] array5 = mD5CryptoServiceProvider.ComputeHash(array3);
+			byte[] array6 = new byte[32];
+			for (int j = 0; j < array5.Length; j++)
+			{
+				array6[2 * j] = (byte)BY_HttpAesDecMd5.g_strTable[array5[j] >> 4][0];
+				array6[2 * j + 1] = (byte)BY_HttpAesDecMd5.g_strTable[(int)(array5[j] & 15)][0];
+			}
+			byte[] array7 = new byte[32 + XConvert.GetObjectSize<TempArray>() + array.Length];
+			Array.Copy(array6, 0, array7, 0, array6.Length);
+			Array.Copy(array4, 0, array7, array6.Length, array4.Length);
+			Array.Copy(array, 0, array7, array6.Length + array4.Length, array.Length);
+			return array7;
+		}
+
+		public byte[] Decrypt(byte[] data)
+		{
+			return data;
+		}
+
+		public bool IsEnc()
+		{
+			return true;
+		}
+
+		public bool IsDec()
+		{
+			return false;
+		}
+	}
+}
