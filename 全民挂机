@@ -17,6 +17,7 @@ protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bo
 	BY_GamePlayerNode bY_GamePlayerNode = GDUtil.myPlay as BY_GamePlayerNode;
 	BY_GameGlobalParam bY_GameGlobalParam = GDUtil.globalParams as BY_GameGlobalParam;
 	BY_GameTableItem bY_GameTableItem = GDUtil.tableItem as BY_GameTableItem;
+	bY_GameGlobalParam.m_iShotMaxNum = 1000;
 	if (bY_GameTableItem.m_playerShotNumArr[this.m_iPos] >= bY_GameGlobalParam.m_iShotMaxNum)
 	{
 		Debug.Log("can't shot for shot num get max");
@@ -303,4 +304,3 @@ protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bo
 	
 	}
 }
-
