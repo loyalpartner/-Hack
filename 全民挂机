@@ -1,5 +1,4 @@
 using PokerCommon.Util;
-using PokerUtil;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,40 +11,12 @@ namespace Happy_BuYu.Game
 		// You can only reference methods or fields defined in the class (not in ancestors classes)
 		// Fields and methods stubs are needed for compilation purposes only.
 		// Reflexil will automaticaly map current type, fields or methods to original references.
-// Happy_BuYu.Game.BY_AdvanceGun
-
-
-// 注意 useskill()方法需要 降低一个return 删除
+		// Happy_BuYu.Game.BY_AdvanceGun
 protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bool bDirectly = false)
 {
-	
-		
-	
 	BY_GamePlayerNode bY_GamePlayerNode = GDUtil.myPlay as BY_GamePlayerNode;
 	BY_GameGlobalParam bY_GameGlobalParam = GDUtil.globalParams as BY_GameGlobalParam;
 	BY_GameTableItem bY_GameTableItem = GDUtil.tableItem as BY_GameTableItem;
-	bY_GameGlobalParam.m_iShotMaxNum = 3000;
-	
-	long num2 = System.DateTime.UtcNow.Ticks / 10000L;
-	long num3 = (long)bY_GameGlobalParam.m_iFireSpeed;
-	long num4 = (long)bY_GamePlayerNode.iChangeFireFreq();
-	long num5 = num2 - bY_GamePlayerNode.GetShotReqTime(this.m_iVirtualPos);
-	if (num5 < GameUtil.Delay)
-	{
-		return;
-	}
-	int loopCount = 2;
-	
-	if (!bY_GamePlayerNode.bUsingLock() && bY_GamePlayerNode.GetPropNum(325)>0) 
-	{
-			//BY_OperationPanel.instance.HandleOperationSkill(107);
-			
-			bY_GamePlayerNode.UseSkillReq(105);
-			bY_GamePlayerNode.UseSkillReq(107);
-			
-	}
-	
-	
 	if (bY_GameTableItem.m_playerShotNumArr[this.m_iPos] >= bY_GameGlobalParam.m_iShotMaxNum)
 	{
 		Debug.Log("can't shot for shot num get max");
@@ -68,6 +39,27 @@ protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bo
 		}
 		return;
 	}
+	
+		long num2 = DateTime.UtcNow.Ticks / 10000L;
+	long num3 = (long)bY_GameGlobalParam.m_iFireSpeed;
+	long num4 = (long)bY_GamePlayerNode.iChangeFireFreq();
+	long num5 = num2 - bY_GamePlayerNode.GetShotReqTime(this.m_iVirtualPos);
+	if (num5 < num3 + num4)
+	{
+		return;
+	}
+	
+	int loopCount = 2;
+	
+	if (!bY_GamePlayerNode.bUsingLock() && bY_GamePlayerNode.GetPropNum(325)>0) 
+	{
+			//BY_OperationPanel.instance.HandleOperationSkill(107);
+			
+			bY_GamePlayerNode.UseSkillReq(105);
+			bY_GamePlayerNode.UseSkillReq(107);
+			
+	}
+	
 	if (!bDirectly)
 	{
 		bool flag = true;
@@ -87,7 +79,7 @@ protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bo
 		}
 		if (flag)
 		{
-			double num = System.Math.Atan2((double)(raycastHit.point.x - this.m_gunPos.x), (double)(raycastHit.point.z - this.m_gunPos.z)) * 57.29577951308238;
+			double num = Math.Atan2((double)(raycastHit.point.x - this.m_gunPos.x), (double)(raycastHit.point.z - this.m_gunPos.z)) * 57.29577951308238;
 			this.m_aimAngleValue = (double)Quaternion.Euler(new Vector3(0f, (float)num, 0f)).eulerAngles.y;
 			if (bY_GamePlayerNode.m_iDisplayPos > 1)
 			{
@@ -108,8 +100,18 @@ protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bo
 			{
 				this.m_aimAngleValue = 270.0;
 			}
-			this.m_gunBody.transform.localRotation = Quaternion.Euler(new Vector3(0f, (float)this.m_aimAngleValue, 0f));
-			this.m_distance = Vector3.Distance(raycastHit.point, this.m_gunPos);
+			if (bY_GamePlayerNode.m_dicLogicGunStatus.ContainsKey(15) && bY_GamePlayerNode.m_iLaserShotStatus == 1)
+			{
+				if (!base.IsInvoking("RotateToAimAngle"))
+				{
+					base.CancelInvoke("RotateToAimAngle");
+					base.InvokeRepeating("RotateToAimAngle", 0.01f, 0.01f);
+				}
+			}
+			else
+			{
+				this.m_gunBody.transform.localRotation = Quaternion.Euler(new Vector3(0f, (float)this.m_aimAngleValue, 0f));
+			}
 		}
 	}
 
@@ -129,7 +131,6 @@ protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bo
 		}
 	}
 	int num6 = (int)this.m_gunBody.transform.localRotation.eulerAngles.y;
-	
 	for(int i=0; i<loopCount;i++) {
 	if (bY_GamePlayerNode.m_iWaitFireSkillShot == 0)
 	{
@@ -141,32 +142,43 @@ protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bo
 		usePveSkillShotReqDef.cTemp = 0;
 		usePveSkillShotReqDef.sAngleValue = (short)num6;
 		bY_GamePlayerNode.SetAlreadyShotReq(true, this.m_iVirtualPos);
-		DispatcherUtil.SendMsg(7, usePveSkillShotReqDef, (GDUtil.globalParams as BY_GameGlobalParam).m_strFishChildKey);
+		DispatcherUtil.SendMsg(7, usePveSkillShotReqDef, bY_GameGlobalParam.m_strFishChildKey);
 		bY_GamePlayerNode.m_iWaitFireSkillShot = -1;
 		bY_GamePlayerNode.m_dicFireSkillAimSelf[(int)usePveSkillShotReqDef.cShotID] = false;
 		Debug.Log("shot dizz btn");
 	}
 	else
 	{
-		UdpShotReqDef udpShotReqDef = new UdpShotReqDef();
-		udpShotReqDef.cPos = (byte)this.m_iPos;
-		udpShotReqDef.sAngleValue = (short)num6;
-		udpShotReqDef.cShotLevel = (byte)bY_GamePlayerNode.CalculateGunLevel();
-		udpShotReqDef.cShotID = (ushort)bY_GamePlayerNode.GetShotMainID();
-		udpShotReqDef.cVirtualPos = (byte)this.m_iVirtualPos;
-		udpShotReqDef.usBetValue = (ushort)bY_GamePlayerNode.m_iCurBetValue;
-		udpShotReqDef.cPenetrateNum = 1;
-		udpShotReqDef.GetCheckID();
-		this.m_dicShotAngle[(int)udpShotReqDef.cShotID] = this.m_gunBody.transform.localRotation.eulerAngles.y;
+		UdpNewShotReqDef udpNewShotReqDef = new UdpNewShotReqDef();
+		udpNewShotReqDef.cPosAndShotPos = (byte)((int)((byte)this.m_iPos) << 4 | (int)((byte)this.m_iVirtualPos));
+		udpNewShotReqDef.cSpecialType = (byte)bY_GamePlayerNode.GetShotSpecialType();
+		udpNewShotReqDef.cShotLevel = (byte)bY_GamePlayerNode.CalculateGunLevel();
+		udpNewShotReqDef.sAngleValue = (short)num6;
+		udpNewShotReqDef.usShotID = (ushort)bY_GamePlayerNode.GetShotMainID();
+		udpNewShotReqDef.usBetValue = (ushort)bY_GamePlayerNode.m_iCurBetValue;
+		udpNewShotReqDef.GetCheckID();
+		this.m_dicShotAngle[(int)udpNewShotReqDef.usShotID] = this.m_gunBody.transform.localRotation.eulerAngles.y;
 		bY_GamePlayerNode.SetAlreadyShotReq(true, this.m_iVirtualPos);
-		DispatcherUtil.SendMsg(5, udpShotReqDef, (GDUtil.globalParams as BY_GameGlobalParam).m_strFishChildKey);
-		InsideMsgUtil.SendInsideMsg("advanceMyselfShot", udpShotReqDef, (GDUtil.globalParams as BY_GameGlobalParam).m_strFishChildKey);
+		if (!bY_GameTableItem.m_bNewerGuiding)
+		{
+			DispatcherUtil.SendMsg(110, udpNewShotReqDef, bY_GameGlobalParam.m_strFishChildKey);
+		}
+		InsideMsgUtil.SendInsideMsg("advanceMyselfShot", udpNewShotReqDef, bY_GameGlobalParam.m_strFishChildKey);
+		if (udpNewShotReqDef.cSpecialType == 5 && bY_GamePlayerNode.m_iLaserShotStatus == 0)
+		{
+			DispatcherUtil.SendMsg(94, new ContinueShotNoticeDef
+			{
+				cPos = (byte)bY_GamePlayerNode.m_iTableNumExtra,
+				cType = 5,
+				cStatus = 0
+			}, bY_GameGlobalParam.m_strFishChildKey);
+			bY_GamePlayerNode.m_iLaserShotStatus = 1;
+		}
 	}
 	bY_GamePlayerNode.m_iRequestShotNum++;
 	this.m_bFirstNoMoney = true;
 	this.m_iWaitShotTime = 0;
 	}
-
 }
 
 		
@@ -181,6 +193,27 @@ protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bo
 		}
 		
 		void SetUnreal(bool bUnreal)
+		{
+		}
+		
+		bool IsSpecialFireAni()
+		{
+			return default(bool);
+		}
+		
+		void InitAniComponent()
+		{
+		}
+		
+		void PlayGunActionTake()
+		{
+		}
+		
+		void PlayStandbyAni()
+		{
+		}
+		
+		void ShowSpecialEff()
 		{
 		}
 		
@@ -213,7 +246,7 @@ protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bo
 		{
 		}
 		
-		bool IsFishStatusCanBeLock(BY_FishBase.FishStatus status)
+		bool IsFishStatusCanBeLock(Happy_BuYu.Game.BY_FishBase.FishStatus status)
 		{
 			return default(bool);
 		}
@@ -248,13 +281,21 @@ protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bo
 		{
 		}
 		
+		void RotateToAimAngle()
+		{
+		}
+		
 		#endregion 
 		
 		#region " Fields stubs "
 		// Do not add or update any field. If compilation fails because of a field declaration, comment it
 		Happy_BuYu.Game.BY_FishBase m_fishBase;
+		UnityEngine.GameObject m_gunInfo1;
+		UnityEngine.GameObject m_gunInfo2;
+		UnityEngine.Animation m_pSpecialAniInfo;
+		UnityEngine.GameObject m_specialEff;
+		UnityEngine.GameObject m_specialEff2;
 		double m_aimAngleValue;
-		float m_distance;
 		long m_LastCannotLock;
 		bool m_bRight;
 		bool m_bPauseFire;
@@ -262,3 +303,4 @@ protected override void FireSendMsg(Vector3 cursorScreenPosition, bool bAuto, bo
 	
 	}
 }
+
