@@ -56,6 +56,7 @@ private void HandleGetNewDailyInfoRes(byte[] pMsg)
 			}
 		}
 		
+		Happy_BuYu.Lobby.BY_LbMainMediator.Instance.m_pLbChooseScenePanel.ClickStartBtn();
 	}
 }
 
