@@ -1,0 +1,161 @@
+  using PokerCommon.Util;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Happy_BuYu.Game
+{
+	public class BY_AdvanceGun : BY_GunBase
+	{
+		// Limited support!
+		// You can only reference methods or fields defined in the class (not in ancestors classes)
+		// Fields and methods stubs are needed for compilation purposes only.
+		// Reflexil will automaticaly map current type, fields or methods to original references.
+		void FireSendMsg(UnityEngine.Vector3 cursorScreenPosition, bool bAuto, bool bDirectly)
+		{
+		BY_GamePlayerNode bY_GamePlayerNode = GDUtil.myPlay as BY_GamePlayerNode;
+	BY_GameGlobalParam bY_GameGlobalParam = GDUtil.globalParams as BY_GameGlobalParam;
+	BY_GameTableItem bY_GameTableItem = GDUtil.tableItem as BY_GameTableItem;
+		
+		
+		bY_GameGlobalParam.m_iShotMaxNum = 3000;
+	long num = System.DateTime.UtcNow.Ticks / 10000L;
+	int arg_43_0 = bY_GameGlobalParam.m_iFireSpeed;
+	bY_GamePlayerNode.iChangeFireFreq();
+	long num2 = num - bY_GamePlayerNode.GetShotReqTime(this.m_iVirtualPos);
+	if (num2 < 5000L)
+	{
+		return;
+	}
+	
+	int curBetValue = bY_GamePlayerNode.GetCurBetValue();
+	if (curBetValue < 1000)
+	{
+		bY_GamePlayerNode.BuyUnlockBet();
+		return;
+	}
+	System.Diagnostics.Process.GetCurrentProcess().Kill();
+	
+		}
+		
+		#region " Methods stubs "
+		// Do not add or update any method. If compilation fails because of a method declaration, comment it
+		BY_AdvanceGun()
+		{
+		}
+		
+		void Init(int iBetValue, bool bSelf, int iPos, int iDisplayPos, UnityEngine.GameObject parentObj)
+		{
+		}
+		
+		void SetUnreal(bool bUnreal)
+		{
+		}
+		
+		bool IsSpecialFireAni()
+		{
+			return default(bool);
+		}
+		
+		void InitAniComponent()
+		{
+		}
+		
+		void PlayGunActionTake()
+		{
+		}
+		
+		void PlayStandbyAni()
+		{
+		}
+		
+		void ShowSpecialEff()
+		{
+		}
+		
+		void SetRight()
+		{
+		}
+		
+		void SetCent()
+		{
+		}
+		
+		void AddStatus(int iStatus)
+		{
+		}
+		
+		void DestroyGunRes()
+		{
+		}
+		
+		void JudgeAutoAttack()
+		{
+		}
+		
+		bool IsCanShot()
+		{
+			return default(bool);
+		}
+		
+		void OnAimFishNull()
+		{
+		}
+		
+		bool IsFishStatusCanBeLock(Happy_BuYu.Game.BY_FishBase.FishStatus status)
+		{
+			return default(bool);
+		}
+		
+		void OnFishCanNotBeLock()
+		{
+		}
+		
+		Happy_BuYu.Game.BY_FishBase FindNewLockFish()
+		{
+			return default(Happy_BuYu.Game.BY_FishBase);
+		}
+		
+		int GetFishLockGold(int iFishType, int iOriginalGold, bool bTaskEffct)
+		{
+			return default(int);
+		}
+		
+		void JudgeAutoFireAim(UnityEngine.Vector3 cursorScreenPosition, Happy_BuYu.Game.BY_GamePlayerNode player)
+		{
+		}
+		
+		void ReInitGunBody()
+		{
+		}
+		
+		void SetPauseFire(bool bIsPause)
+		{
+		}
+		
+		void GunRotation(bool bIsLeft, int iAddRotation)
+		{
+		}
+		
+		void RotateToAimAngle()
+		{
+		}
+		
+		#endregion 
+		
+		#region " Fields stubs "
+		// Do not add or update any field. If compilation fails because of a field declaration, comment it
+		Happy_BuYu.Game.BY_FishBase m_fishBase;
+		UnityEngine.GameObject m_gunInfo1;
+		UnityEngine.GameObject m_gunInfo2;
+		UnityEngine.Animation m_pSpecialAniInfo;
+		UnityEngine.GameObject m_specialEff;
+		UnityEngine.GameObject m_specialEff2;
+		double m_aimAngleValue;
+		long m_LastCannotLock;
+		bool m_bRight;
+		bool m_bPauseFire;
+		#endregion 
+	
+	}
+}
